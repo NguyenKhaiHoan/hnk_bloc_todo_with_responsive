@@ -1,25 +1,41 @@
 # Dự án nhỏ về Bloc: Todo App Bloc Responsive
 
-Tạo ứng dụng Todo để thực thiện thêm, sửa, tạo, xóa các task với việc sử dụng thư viện Bloc và thực hiện responsive với platform web
+Tạo ứng dụng Todo để thực hiện thêm, sửa, xóa các task với việc sử dụng thư viện Bloc và thực hiện responsive với platform web
 
-Ảnh: 
+<p align="center" width="100%">
+    <img width="30%" src="./assets/images/logos/logo.png"> 
+</p>
 
-![image](https://github.com/NguyenKhaiHoan/hnk_bloc_todo_with_responsive/assets/91106338/9eeea41b-436d-4385-ac09-0eec102dc883)
+**Hình ảnh:**
 
-## Demo
+<p align="center" width="100%">
+    <img src="https://github.com/NguyenKhaiHoan/hnk_bloc_todo_with_responsive/assets/91106338/9eeea41b-436d-4385-ac09-0eec102dc883"> 
+</p>
 
-- **Update 1**: Cập nhật 14/6/2024
+## Cập nhật
 
-Đã thực hiện:
-- [x] CRUD task
+### Update 1: Cập nhật 14/6/2024
+
+_Đã thực hiện:_
+
+- [x] Thêm, sửa, xóa task
 - [x] Cập nhật taskCount khi add và remove task trên drawer của Dashboard
 - [x] Responsive với platform web
 
-Chưa thực hiện:
+_Chưa thực hiện:_
+
 - [ ] Cập nhật lại giao diện chọn list và due date trong khi thực hiện add và remove
 
-Video: (Đang cập nhật...)
+_Demo:_
 
-## Reference
+<p align="center" width="100%">
+    <video controls autoplay>
+        <source src="./assets/videos/Demo_Todo_Bloc_14_6.mp4" type="video/mp4">
+    </video> 
+</p>
 
-Design: [link](https://uizard.io/templates/website-templates/to-do-website/)
+## Tham khảo thiết kế
+
+**Design Login UI:** [link](https://dribbble.com/shots/12216995-Schedo-Task-Manager-App)
+
+**Design App UI:** [link](https://uizard.io/templates/website-templates/to-do-website/)

@@ -95,7 +95,7 @@ class DashBoardCubit extends Cubit<DashBoardState> {
     var tasksMenu = state.tasksMenu;
     var tmpItem = tasksMenu[1];
     var taskCount = tmpItem.taskCount;
-    tasksMenu[1] = tmpItem.copyWith(taskCount: taskCount + 1);
+    tasksMenu[1] = tmpItem.copyWith(taskCount: taskCount - 1);
 
     var listsMenu = state.listsMenu;
     final listItemIndex =
