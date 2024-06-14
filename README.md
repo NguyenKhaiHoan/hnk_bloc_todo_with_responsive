@@ -1,18 +1,30 @@
-# Dự án nhỏ về Bloc: Todo App Bloc Responsive
+# Dự án nhỏ cá nhân về Bloc: Todo Movie App Bloc Responsive
 
-Tạo ứng dụng Todo để thực hiện thêm, sửa, xóa các task với việc sử dụng thư viện Bloc và thực hiện responsive với platform web
+**Mô tả:**
+
+- Tích hợp 2 ứng dụng, lần lượt là Todo để thực hiện thêm, sửa, xóa các task với việc sử dụng thư viện Bloc, thực hiện responsive với platform web.
+
+- Và ứng dụng Movie giúp truy cập xem các thông tin phim mới nhất thông qua API của TheMovieDB
+
+- Ứng dụng chỉ sử dụng với mục đích học tập cá nhân và tự do sáng tạo :))
+
+**Logo:**
 
 <p align="center" width="100%">
     <img width="30%" src="./assets/images/logos/logo.png"> 
 </p>
 
-**Hình ảnh:**
+**Hình ảnh Todo App:**
 
 <p align="center" width="100%">
     <img src="https://github.com/NguyenKhaiHoan/hnk_bloc_todo_with_responsive/assets/91106338/9eeea41b-436d-4385-ac09-0eec102dc883"> 
 </p>
 
-## Cập nhật
+**Hình ảnh Movie App:**
+
+(Đang cập nhật ...)
+
+## Tiến trình
 
 ### Update 1: Cập nhật 14/6/2024
 
@@ -34,8 +46,16 @@ _Demo:_
     </video> 
 </p>
 
-## Tham khảo thiết kế
+## Nguồn
 
-**Design Login UI:** [link](https://dribbble.com/shots/12216995-Schedo-Task-Manager-App)
+_Tham khảo thiết kế giao diện:_
 
-**Design App UI:** [link](https://uizard.io/templates/website-templates/to-do-website/)
+- Design Login UI (dribble.com): [link](https://dribbble.com/shots/12216995-Schedo-Task-Manager-App)
+
+- Design Todo App UI (uizard.io): [link](https://uizard.io/templates/website-templates/to-do-website/)
+
+- Design Movie App UI (Đang cập nhật ...)
+
+_API:_
+
+- TheMovieDB (themoviedb.org): [link](https://www.themoviedb.org/?language=vi)
