@@ -2,7 +2,9 @@
 
 Tạo ứng dụng Todo để thực thiện thêm, sửa, tạo, xóa các task với việc sử dụng thư viện Bloc và thực hiện responsive với platform web
 
-Ảnh: ![image](https://github.com/NguyenKhaiHoan/hnk_bloc_todo_with_responsive/assets/91106338/9eeea41b-436d-4385-ac09-0eec102dc883)
+Ảnh: 
+
+![image](https://github.com/NguyenKhaiHoan/hnk_bloc_todo_with_responsive/assets/91106338/9eeea41b-436d-4385-ac09-0eec102dc883)
 
 ## Demo
 
