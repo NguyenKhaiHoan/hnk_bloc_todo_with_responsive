@@ -28,11 +28,7 @@ _Chưa thực hiện:_
 
 _Demo:_
 
-<p align="center" width="100%">
-    <video controls autoplay>
-        <source src="./assets/videos/Demo_Todo_Bloc_14_6.mp4" type="video/mp4">
-    </video> 
-</p>
+https://github.com/NguyenKhaiHoan/hnk_bloc_todo_with_responsive/assets/91106338/929dbeda-141b-401b-acf5-83ce3125fec3
 
 ## Tham khảo thiết kế
 
