@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_task_bloc_simple/blocs/todo/todo_cubit.dart';
 import 'package:todo_task_bloc_simple/constants/app_colors.dart';
-import 'package:todo_task_bloc_simple/constants/app_fonts.dart';
 import 'package:todo_task_bloc_simple/constants/app_sizes.dart';
 import 'package:todo_task_bloc_simple/constants/app_style.dart';
-import 'package:todo_task_bloc_simple/models/list_menu_item.dart';
-import 'package:todo_task_bloc_simple/models/task_menu_item.dart';
-import 'package:todo_task_bloc_simple/screens/dash_board/dash_board_cubit.dart';
+import 'package:todo_task_bloc_simple/presentations/screens/todo/components/add_list_section.dart';
+import 'package:todo_task_bloc_simple/presentations/screens/todo/components/image_avatar.dart';
+import 'package:todo_task_bloc_simple/presentations/screens/todo/components/list_section.dart';
+import 'package:todo_task_bloc_simple/presentations/screens/todo/components/task_section.dart';
 
 class DrawerScreen extends StatelessWidget {
   const DrawerScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DashBoardCubit, DashBoardState>(
+    return BlocBuilder<TodoCubit, TodoState>(
       builder: (context, state) {
         var tasksMenu = state.tasksMenu;
         var listsMenu = state.listsMenu;
@@ -82,7 +83,7 @@ class DrawerScreen extends StatelessWidget {
                         itemCount: listsMenu.length + 1,
                         itemBuilder: (context, index) {
                           if (index == listsMenu.length) {
-                            return AddListSection();
+                            return const AddListSection();
                           }
                           return ListSection(item: listsMenu[index]);
                         }),
@@ -142,6 +143,8 @@ class DrawerScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const ImageAvatar(),
+                    gapH10,
                     const ListTile(
                       leading: Icon(Icons.settings),
                       title: Text(
@@ -166,131 +169,6 @@ class DrawerScreen extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-}
-
-class TaskSection extends StatelessWidget {
-  const TaskSection({super.key, required this.isSelected, required this.item});
-
-  final TaskMenuItem item;
-  final bool isSelected;
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<DashBoardCubit, DashBoardState>(
-      builder: (context, state) {
-        var taskMenuItem =
-            state.tasksMenu.firstWhere((taskMenuItem) => taskMenuItem == item);
-        return Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: isSelected
-                  ? HAppColor.hSelectedSectionColor
-                  : HAppColor.hTransparentColor),
-          child: ListTile(
-            leading: taskMenuItem.icon,
-            title: Text(taskMenuItem.title,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: isSelected
-                    ? const TextStyle(
-                        fontStyle: FontStyle.normal,
-                        color: HAppColor.hBlackColor,
-                        fontFamily: HAppFont.nunitoFontFamily,
-                        fontSize: 14,
-                        fontWeight: HAppFont.nunitoBold,
-                      )
-                    : HAppStyle.paragraph2Regular),
-            trailing: taskMenuItem.taskCount != 0
-                ? DecoratedBox(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: !isSelected
-                            ? HAppColor.hSelectedSectionColor
-                            : HAppColor.hWhiteColor),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 5, horizontal: 10),
-                      child: Text(
-                        item.taskCount.toString(),
-                        style: HAppStyle.heading5Style,
-                      ),
-                    ),
-                  )
-                : const SizedBox(),
-            onTap: () {},
-          ),
-        );
-      },
-    );
-  }
-}
-
-class ListSection extends StatelessWidget {
-  const ListSection({super.key, required this.item});
-
-  final ListMenuItem item;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: DecoratedBox(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5), color: item.color),
-        child: const Padding(
-          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-          child: Text(
-            ' ',
-            style: HAppStyle.paragraph4Bold,
-          ),
-        ),
-      ),
-      title: Text(item.title,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: HAppStyle.paragraph2Regular),
-      trailing: item.taskCount != 0
-          ? DecoratedBox(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: HAppColor.hSelectedSectionColor),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                child: Text(
-                  item.taskCount.toString(),
-                  style: HAppStyle.heading5Style,
-                ),
-              ),
-            )
-          : const SizedBox(),
-      onTap: () {},
-    );
-  }
-}
-
-class AddListSection extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: const Border(
-          top: BorderSide(
-            color: HAppColor.hSecondaryBackgroundColor,
-            width: 2.0,
-          ),
-        ),
-      ),
-      child: ListTile(
-        leading: const Icon(Icons.add),
-        title: const Text(
-          'Add new list',
-          style: HAppStyle.paragraph2Regular,
-        ),
-        onTap: () {},
-      ),
     );
   }
 }

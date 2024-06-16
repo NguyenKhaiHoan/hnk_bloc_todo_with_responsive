@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_task_bloc_simple/constants/app_theme.dart';
-import 'package:todo_task_bloc_simple/routes.dart';
-import 'package:todo_task_bloc_simple/screens/login/login_screen.dart';
+import 'package:todo_task_bloc_simple/presentations/routes/routes.dart';
+import 'package:todo_task_bloc_simple/presentations/screens/login/login_screen.dart';
+import 'package:todo_task_bloc_simple/repositories/auth_repo.dart';
+import 'package:todo_task_bloc_simple/repositories/auth_repo_impl.dart';
 
 void main() {
   Bloc.observer = const SimpleBlocObserver();
-  runApp(
-    App(),
-  );
+  runApp(RepositoryProvider<AuthRepo>(
+    create: (context) => AuthRepoImpl(),
+    child: const MyApp(),
+  ));
 }
 
 class SimpleBlocObserver extends BlocObserver {
@@ -54,7 +57,9 @@ class SimpleBlocObserver extends BlocObserver {
   }
 }
 
-class App extends StatelessWidget {
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return PopScope(

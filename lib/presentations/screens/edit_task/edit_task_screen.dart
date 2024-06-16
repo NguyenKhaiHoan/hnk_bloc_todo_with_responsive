@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:todo_task_bloc_simple/blocs/todo/todo_cubit.dart';
 import 'package:todo_task_bloc_simple/constants/app_colors.dart';
 import 'package:todo_task_bloc_simple/constants/app_sizes.dart';
 import 'package:todo_task_bloc_simple/constants/app_style.dart';
-import 'package:todo_task_bloc_simple/screens/dash_board/dash_board_cubit.dart';
-import 'package:todo_task_bloc_simple/screens/dash_board/dash_board_screen.dart';
+import 'package:todo_task_bloc_simple/presentations/screens/todo/todo_screen.dart';
 
-class EditTaskScreen extends StatelessWidget {
+class EditTaskScreen extends StatefulWidget {
   static const String route = "EditTaskScreen";
   final bool isAddMode;
   final int oldPageCount;
@@ -16,22 +16,43 @@ class EditTaskScreen extends StatelessWidget {
       {super.key, this.isAddMode = false, required this.oldPageCount});
 
   @override
+  State<EditTaskScreen> createState() => _EditTaskScreenState();
+}
+
+class _EditTaskScreenState extends State<EditTaskScreen> {
+  var selectedListItemString = '';
+  var selectedDueDateString = '';
+
+  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DashBoardCubit, DashBoardState>(
+    return BlocBuilder<TodoCubit, TodoState>(
       builder: (context, state) {
+        if (state.selectedIdx == -1) {
+          return const Center(
+            child: Text(
+              'No tasks are displayed',
+              style: HAppStyle.paragraph2Regular,
+            ),
+          );
+        }
+
         var listsMenu = state.listsMenu;
 
         var title = TextEditingController(text: "");
         var description = TextEditingController(text: "");
         var selectedListItem = listsMenu[0];
+        selectedListItemString = selectedListItem.title;
         var selectedDuaDate = DateTime.now();
-        var cubit = context.read<DashBoardCubit>();
-        if (!isAddMode) {
+        var cubit = context.read<TodoCubit>();
+        if (!widget.isAddMode) {
           var task = state.tasks[state.selectedIdx];
           title.text = task.title;
           description.text = task.description;
           selectedListItem = task.listMenuItem;
+          selectedListItemString = selectedListItem.title;
           selectedDuaDate = task.duaDate;
+          selectedDueDateString =
+              DateFormat('dd-MM-yyyy').format(selectedDuaDate);
         }
         var newPageCount = state.pageCount;
         return Column(
@@ -90,12 +111,16 @@ class EditTaskScreen extends StatelessWidget {
                         child: Row(
                           children: [
                             DropdownButton(
-                              value: selectedListItem.title,
+                              value: selectedListItemString,
                               onChanged: (newValue) {
-                                var listItem = selectedListItem.title;
-                                listItem = newValue!;
-                                selectedListItem = listsMenu.firstWhere(
-                                    (item) => item.title == listItem);
+                                setState(() {
+                                  var listItem = selectedListItem.title;
+                                  listItem = newValue!;
+                                  selectedListItem = listsMenu.firstWhere(
+                                      (item) => item.title == listItem);
+                                  selectedListItemString =
+                                      selectedListItem.title;
+                                });
                               },
                               style: HAppStyle.paragraph2Regular,
                               items: listsMenu
@@ -130,17 +155,23 @@ class EditTaskScreen extends StatelessWidget {
                         child: Row(
                           children: [
                             DropdownButton(
-                              value: DateFormat('dd-MM-yyyy')
-                                  .format(selectedDuaDate),
+                              value: selectedDueDateString,
                               onChanged: (newValue) async {
                                 var date = DateTime.now();
-                                final DateTime? picked = await showDatePicker(
+                                await showDatePicker(
                                   context: context,
                                   initialDate: date,
                                   firstDate: DateTime(2024),
                                   lastDate: DateTime(2025),
-                                );
-                                selectedDuaDate = picked ?? selectedDuaDate;
+                                ).then((pickedDate) {
+                                  setState(() {
+                                    selectedDuaDate =
+                                        pickedDate ?? selectedDuaDate;
+                                    selectedDueDateString =
+                                        DateFormat('dd-MM-yyyy')
+                                            .format(selectedDuaDate);
+                                  });
+                                });
                               },
                               style: HAppStyle.paragraph2Regular,
                               items: [
@@ -164,7 +195,7 @@ class EditTaskScreen extends StatelessWidget {
             )),
             Container(
               padding: hAppDefaultPaddingT,
-              color: !isAddMode
+              color: !widget.isAddMode
                   ? HAppColor.hSecondaryBackgroundColor
                   : HAppColor.hPrimaryBackgroundColor,
               child: Row(
@@ -172,15 +203,14 @@ class EditTaskScreen extends StatelessWidget {
                   Expanded(
                       child: OutlinedButton(
                           onPressed: () {
-                            if (!isAddMode) {
+                            if (!widget.isAddMode) {
                               cubit.removeTask(state.selectedIdx);
-                              if (oldPageCount < 3) {
-                                if (oldPageCount == newPageCount) {
+                              if (widget.oldPageCount < 3) {
+                                if (widget.oldPageCount == newPageCount) {
                                   Navigator.of(context).pop();
                                 } else {
                                   Navigator.of(context).popUntil(
-                                      ModalRoute.withName(
-                                          DashBoardScreen.route));
+                                      ModalRoute.withName(TodoScreen.route));
                                 }
                               }
                             } else {
@@ -192,7 +222,7 @@ class EditTaskScreen extends StatelessWidget {
                                   width: 2.0,
                                   color: HAppColor.hSelectedSectionColor)),
                           child: Text(
-                            !isAddMode ? "Remove task" : 'Cancel',
+                            !widget.isAddMode ? "Remove task" : 'Cancel',
                             style: HAppStyle.paragraph2Bold,
                             textAlign: TextAlign.center,
                           ))),
@@ -200,7 +230,7 @@ class EditTaskScreen extends StatelessWidget {
                   Expanded(
                       child: ElevatedButton(
                           onPressed: () {
-                            if (!isAddMode) {
+                            if (!widget.isAddMode) {
                               cubit.editTask(
                                 state.selectedIdx,
                                 title.text,
@@ -208,14 +238,13 @@ class EditTaskScreen extends StatelessWidget {
                                 selectedListItem,
                                 selectedDuaDate,
                               );
-                              if (oldPageCount < 3) {
+                              if (widget.oldPageCount < 3) {
                                 //3 don't need back
-                                if (oldPageCount == newPageCount) {
+                                if (widget.oldPageCount == newPageCount) {
                                   Navigator.of(context).pop();
                                 } else {
                                   Navigator.of(context).popUntil(
-                                      ModalRoute.withName(
-                                          DashBoardScreen.route));
+                                      ModalRoute.withName(TodoScreen.route));
                                 }
                               }
                             } else {
@@ -227,7 +256,7 @@ class EditTaskScreen extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                               backgroundColor: HAppColor.hYellowColor),
                           child: Text(
-                            !isAddMode ? "Save changes" : 'Add task',
+                            !widget.isAddMode ? "Save changes" : 'Add task',
                             style: HAppStyle.paragraph2Bold,
                             textAlign: TextAlign.center,
                           )))

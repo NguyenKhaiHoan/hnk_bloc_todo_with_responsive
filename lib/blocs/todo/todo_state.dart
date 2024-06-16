@@ -1,6 +1,6 @@
-part of 'dash_board_cubit.dart';
+part of 'todo_cubit.dart';
 
-class DashBoardState extends Equatable {
+class TodoState extends Equatable {
   final List<TaskItem> tasks;
   final List<TaskMenuItem> tasksMenu;
   final List<ListMenuItem> listsMenu;
@@ -11,7 +11,7 @@ class DashBoardState extends Equatable {
   @override
   List<Object> get props => [tasks, selectedIdx, pageCount];
 
-  const DashBoardState({
+  const TodoState({
     this.tasks = const [],
     this.tasksMenu = const [],
     this.listsMenu = const [],
@@ -20,7 +20,7 @@ class DashBoardState extends Equatable {
     this.pageCount = 1,
   });
 
-  DashBoardState copyWith({
+  TodoState copyWith({
     List<TaskItem>? tasks,
     List<TaskMenuItem>? tasksMenu,
     List<ListMenuItem>? listsMenu,
@@ -28,7 +28,7 @@ class DashBoardState extends Equatable {
     int? selectedIdx,
     int? pageCount,
   }) {
-    return DashBoardState(
+    return TodoState(
       tasks: tasks ?? this.tasks,
       tasksMenu: tasksMenu ?? this.tasksMenu,
       listsMenu: listsMenu ?? this.listsMenu,

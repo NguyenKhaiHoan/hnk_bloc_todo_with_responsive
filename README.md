@@ -42,15 +42,26 @@ _Demo:_
 
 https://github.com/NguyenKhaiHoan/hnk_bloc_todo_with_responsive/assets/91106338/929dbeda-141b-401b-acf5-83ce3125fec3
 
+### Update 2: Cập nhật 16/6/2024
+
+_Đã thực hiện:_
+
+- [x] Cập nhật lại giao diện chọn list và due date trong khi thực hiện add và remove
+- [x] Thêm login ui, logic và responsive
+
+_Chưa thực hiện:_
+
+- [ ] Tích hợp xác thực Firebase authentication vào project
+
 ## Nguồn
 
 _Tham khảo thiết kế giao diện:_
 
-- Design Login UI (dribble.com): [link](https://dribbble.com/shots/12216995-Schedo-Task-Manager-App)
+- Design Login UI (Đang cập nhật ...)
 
 - Design Todo App UI (uizard.io): [link](https://uizard.io/templates/website-templates/to-do-website/)
 
-- Design Movie App UI (Đang cập nhật ...)
+- Design Movie App UI (dribble.com): [link](https://dribbble.com/shots/17514939/attachments/12654819?mode=media)
 
 _API:_
 

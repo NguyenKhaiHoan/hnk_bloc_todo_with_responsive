@@ -1,4 +1,3 @@
-// ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -8,10 +7,14 @@ import 'package:todo_task_bloc_simple/models/tag_menu_item.dart';
 import 'package:todo_task_bloc_simple/models/task_item.dart';
 import 'package:todo_task_bloc_simple/models/task_menu_item.dart';
 
-part 'dash_board_state.dart';
+part 'todo_state.dart';
 
-class DashBoardCubit extends Cubit<DashBoardState> {
-  DashBoardCubit() : super(const DashBoardState()) {
+class TodoCubit extends Cubit<TodoState> {
+  TodoCubit() : super(const TodoState()) {
+    loadData();
+  }
+
+  void loadData() {
     var newTasks = [
       TaskItem(
           dateTime: DateTime.now(),
@@ -59,55 +62,55 @@ class DashBoardCubit extends Cubit<DashBoardState> {
   }
 
   void addTask(String title, String description, ListMenuItem listMenuItem,
-      DateTime duaDate) {
-    var newTasks = [
-      TaskItem(
-          dateTime: DateTime.now(),
-          title: title,
-          description: description,
-          duaDate: duaDate,
-          listMenuItem: listMenuItem),
-      ...state.tasks,
-    ];
+      DateTime dueDate) {
+    var newTask = TaskItem(
+      dateTime: DateTime.now(),
+      title: title,
+      description: description,
+      listMenuItem: listMenuItem,
+      duaDate: dueDate,
+    );
 
-    var tasksMenu = state.tasksMenu;
-    var tmpItem = tasksMenu[1];
-    var taskCount = tmpItem.taskCount;
-    tasksMenu[1] = tmpItem.copyWith(taskCount: taskCount + 1);
+    state.tasksMenu[1] = state.tasksMenu[1]
+        .copyWith(taskCount: state.tasksMenu[1].taskCount + 1);
 
-    var listsMenu = state.listsMenu;
     final listItemIndex =
-        listsMenu.indexWhere((item) => item.title == listMenuItem.title);
+        state.listsMenu.indexWhere((item) => item.title == listMenuItem.title);
     if (listItemIndex != -1) {
-      var tmpItem = listsMenu[listItemIndex];
-      var taskCount = tmpItem.taskCount;
-      listsMenu[listItemIndex] = tmpItem.copyWith(taskCount: taskCount + 1);
+      state.listsMenu[listItemIndex] = state.listsMenu[listItemIndex]
+          .copyWith(taskCount: state.listsMenu[listItemIndex].taskCount + 1);
     }
 
     emit(state.copyWith(
-        tasks: newTasks, tasksMenu: tasksMenu, listsMenu: listsMenu));
+      tasks: [newTask, ...state.tasks],
+      tasksMenu: state.tasksMenu,
+      listsMenu: state.listsMenu,
+    ));
   }
 
   void removeTask(int index) {
     var newTasks = [...state.tasks];
     var task = newTasks.removeAt(index);
 
-    var tasksMenu = state.tasksMenu;
-    var tmpItem = tasksMenu[1];
-    var taskCount = tmpItem.taskCount;
-    tasksMenu[1] = tmpItem.copyWith(taskCount: taskCount - 1);
+    state.tasksMenu[1] = state.tasksMenu[1]
+        .copyWith(taskCount: state.tasksMenu[1].taskCount - 1);
 
-    var listsMenu = state.listsMenu;
-    final listItemIndex =
-        listsMenu.indexWhere((item) => item.title == task.listMenuItem.title);
+    final listItemIndex = state.listsMenu
+        .indexWhere((item) => item.title == task.listMenuItem.title);
     if (listItemIndex != -1) {
-      var tmpItem = listsMenu[listItemIndex];
-      var taskCount = tmpItem.taskCount;
-      listsMenu[listItemIndex] = tmpItem.copyWith(taskCount: taskCount - 1);
+      state.listsMenu[listItemIndex] = state.listsMenu[listItemIndex]
+          .copyWith(taskCount: state.listsMenu[listItemIndex].taskCount - 1);
     }
 
+    var currentIndex = newTasks.isNotEmpty
+        ? (index < newTasks.length ? index : newTasks.length - 1)
+        : -1;
+
     emit(state.copyWith(
-        tasks: newTasks, tasksMenu: tasksMenu, listsMenu: listsMenu));
+        tasks: newTasks,
+        tasksMenu: state.tasksMenu,
+        listsMenu: state.listsMenu,
+        selectedIdx: currentIndex));
   }
 
   void editTask(int index, String title, String description,
